@@ -1,0 +1,60 @@
+{
+  name: "syn_midi_parser"
+  clock_primary: sys_clk
+  bus_device: tlul
+  bus_host: none
+  available_input_list: []
+  available_output_list: []
+  regwidth: "32"
+  registers:
+  [
+    {
+      name: status_output
+      desc: "holds last parsed note and event type"
+      swaccess: ro
+      hwaccess: hrw
+      hwext: "true"
+      hwqe : "false"
+      hwre : "true"  # use read burst to tell module it can pull down interrupt line
+      fields:
+      [
+        {
+          bits: 20:14
+          name: "data_2"
+          desc: "second data value between 0 and 127"
+        }
+        {
+          bits: 13:7
+          name: "data_1"
+          desc: "first data value between 0 and 127"
+        }
+        {
+          bits: 6:3
+          name: "midi_channel"
+          desc: "midi channel that event has been sent on"
+        }
+        {
+          bits: 2:0
+          name: "event_type"
+          desc: "MIDI event type - note ON/OFF/PITCH/CC"
+        }
+      ]
+    }
+    {
+      name: status_parsingstate
+      desc: "holds current state of parsing FSM"
+      swaccess: ro
+      hwaccess: hrw
+      hwext: "true"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 1:0
+          name: "FSM_state"
+          desc: "exact mapping tbd, e.g.: waiting, r_statusbyte, r_databyte"
+        }
+      ]
+    }
+  ]
+}

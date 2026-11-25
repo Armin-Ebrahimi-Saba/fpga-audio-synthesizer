@@ -1,0 +1,73 @@
+{
+  name: "syn_mixer"
+  clock_primary: sys_clk
+  bus_device: tlul
+  bus_host: none
+  available_input_list: []
+  available_output_list: []
+  regwidth: "32"
+  registers:
+  [
+{
+      name: status_output
+      desc: "current output of mixer"
+      swaccess: ro
+      hwaccess: hwo
+      hwext: "true"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 15:0
+          name: "audio_out"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: active_voices
+      desc: "currently active voices - affects normalization factor"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 2:0
+          name: "active_voices"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: test
+      desc: "0: regular operation; 1: audio input is read from test_input"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    { multireg: {
+      name: "test_input",
+      desc: "different audio inputs for the mixer",
+      count: "6",  # adapt for polyphony count
+      cname: "TEST_IN",
+      swaccess: "rw",
+      fields: [
+          { bits: "15:0", name: "audio_in", resval: "0",
+            desc: "current audio input sample"
+          }
+        ]
+      }
+    }
+  ]
+}

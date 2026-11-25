@@ -1,0 +1,180 @@
+{
+  name: "syn_oscillator"
+  clock_primary: sys_clk
+  bus_device: tlul
+  bus_host: none
+  available_input_list: []
+  available_output_list: []
+  regwidth: "32"
+  registers:
+  [
+    {
+      name: status_output
+      desc: "current output of oscillator module"
+      swaccess: ro
+      hwaccess: hwo
+      hwext: "true"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 15:0
+          name: "audio_out"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: status_state
+      desc: "shows state of oscillator, whether it is available or busy playing a note"
+      swaccess: ro
+      hwaccess: hwo
+      hwext: "true"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 0
+          name: "current_status"
+          desc: "0 = available, 1 = busy"
+        }
+      ]
+    }
+    {
+      name: note
+      desc: "note the oscillator should play - writing will trigger the module to start"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "true"
+      fields:
+      [
+        {
+          bits: 6:0
+          name: "note"
+          desc: "in range 0-127 (according to midi standard)"
+        }
+      ]
+    }
+    {
+      name: velocity
+      desc: "to control the volume, [0 to 127]"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "true"
+      fields:
+      [
+        {
+          bits: 6:0
+          name: "velocity"
+          desc: "to control the volume, [0 to 127]"
+          resval: "0"
+        }
+      ]
+    }
+    {
+      name: sample
+      desc: "which sample is used and the size of one sample in memory"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 3:2
+          name: "sample_size"
+          desc: "size of one sample: 0 = 256, 1 = 512, 2 = 1024, 3 = 2048"
+        }
+        {
+          bits: 1:0
+          name: "sample_index"
+          desc: "0 = first table, 1 = second table, etc..."
+        }
+      ]
+    }
+    {
+      name: env_config
+      desc: "configuration of the ADSR envelope shaper"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe : "false"
+      fields:
+      [
+        {
+          bits: 15:12
+          name: "attack_value"
+          desc: "configurable using the values specified in 'attack' config of tiny-synth: https://github.com/gundy/tiny-synth?tab=readme-ov-file#io"
+          resval: "0"
+        }
+        {
+          bits: 11:8
+          name: "decay_value"
+          desc: "configurable using the values specified in 'attack' config of tiny-synth: https://github.com/gundy/tiny-synth?tab=readme-ov-file#io"
+          resval: "0"
+        }
+        {
+          bits: 7:4
+          name: "sustain_value"
+          desc: "0 = no sustain and release phase, decay straight to 0. 1-15 linear scales the amplitude where 15 is MAX"
+          resval: "14"
+        }
+        {
+          bits: 3:0
+          name: "release_value"
+          desc: "configurable using the values specified in 'attack' config of tiny-synth: https://github.com/gundy/tiny-synth?tab=readme-ov-file#io"
+          resval: "0"
+        }
+      ]
+    }
+    {
+      name: stop
+      desc: "note off command"
+      swaccess: wo
+      hwaccess: hro
+      hwext: "true"
+      hwqe : "true"
+      fields:
+      [
+        {
+          bits: 0
+          name: "stop"
+          desc: "1 - stop playing note"
+        }
+      ]
+    }
+    {
+      name: test
+      desc: "toggle test mode"
+      swaccess: rw
+      hwaccess: hro
+      fields:
+      [
+        {
+          bits: 0
+          name: "test"
+          desc: "0 - new sample burst by i2s module, 1 - new sample burst every n clock cycles as configured by test_n_register"
+        }
+      ]
+    }
+    {
+      name: test_n_readyburst
+      desc: "cycles between generating next sample when in test mode"
+      swaccess: rw
+      hwaccess: hro
+      hwext: "false"
+      hwqe: "true"
+      fields:
+      [
+        {
+          bits: 15:0
+          name: "n_readyburst"
+          desc: "cycles for holding audio_out on current sample"
+          resval: "3"
+        }
+      ]
+    }
+  ]
+}

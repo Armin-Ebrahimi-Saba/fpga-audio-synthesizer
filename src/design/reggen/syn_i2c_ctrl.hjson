@@ -1,0 +1,70 @@
+{
+  name: "syn_i2c_ctrl"
+  clock_primary: sys_clk
+  bus_device: tlul
+  bus_host: none
+  available_input_list: []
+  available_output_list: []
+  regwidth: "32"
+  registers:
+  [
+    {
+      name: sda_reg2hw
+      desc: "sda line for i2c bus"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: scl_reg2hw
+      desc: "scl line for i2c bus"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: sda_hw2reg
+      desc: "sda line for i2c bus"
+      swaccess: ro
+      hwaccess: hrw
+      hwext: "true"
+      hwqe: "false"
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: scl_hw2reg
+      desc: "scl line for i2c bus"
+      swaccess: ro
+      hwaccess: hrw
+      hwext: "true"
+      hwqe: "false"
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+  ]
+}

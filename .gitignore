@@ -1,0 +1,21 @@
+build/
+__pycache__
+docs/_build/
+rvlab-solutions/
+.venv
+.vscode
+
+# vivado files
+vivado.*
+vivado_*
+.Xil/
+
+# testing output
+util/tmp
+
+# linter files
+.dvt/default.build
+.dvt/default.ls
+.dvt/.build_config_dict/default
+.dvt/build.config.xml
+dvt_build.log

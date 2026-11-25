@@ -1,0 +1,62 @@
+{
+  name: "student_rlight"
+  clock_primary: "sys_clk"
+  bus_device: "tlul"
+  regwidth: "32"
+  registers: 
+  [
+    {
+      name: "pattern"
+      desc: "base pattern of the LEDs"
+      swaccess: "rw"
+      hwaccess: "hro"
+      resval: "180"
+      hwqe : "true"
+      fields: [
+        {bits: "7:0", name: "pattern", desc: "led pattern"}
+      ]
+    }
+    {
+      name: "state"
+      desc: "current state of LEDs while shifting"
+      swaccess: "ro"
+      hwaccess: "hrw"
+      hwext: "true"
+      resval: "180"
+      fields: [
+        {bits: "7:0", name: "state", desc: "led state"}
+      ]
+    }
+    {
+      name: "mode"
+      desc: "current mode of lauflicht"
+      swaccess: "rw"
+      hwaccess: "hro"
+      resval: "3"
+      fields:
+      [
+        { bits: "1:0",
+          name: "mode",
+          desc: "stop = 0, left = 1, right = 2, pingpong = 3"
+          enum: [
+            { value: "0", name: "stop", desc: "lights keep current pattern" }
+            { value: "1", name: "left", desc: "left-shift w wraparound" }
+            { value: "2", name: "right", desc: "right-shift w wraparound" }
+            { value: "3", name: "pingpong", desc: "pingpong mode" }
+          ]
+        }
+      ]
+    }
+    {
+      name: "n"
+      desc: "cycle length"
+      swaccess: "rw"
+      hwaccess: "hro"  
+      resval: "5"
+      fields:
+      [
+        {bits: "31:0", name: "N", desc: "cycle len"}
+      ]
+    }
+  ]
+}

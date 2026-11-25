@@ -1,0 +1,64 @@
+{
+  name: "syn_echo"
+  clock_primary: sys_clk
+  bus_device: tlul
+  bus_host: none
+  available_input_list: []
+  available_output_list: []
+  regwidth: "32"
+  registers:
+  [
+    {
+      name: enable
+      desc: "enable echo effect"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: feedback
+      desc: "how much of the previous sample is fed back to buffer"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 3:0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: decay
+      desc: "mixing ratio between currently played sample and echoed sample"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 3:0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+    {
+      name: delay
+      desc: "how many samples the echo is delayed (delay time (s) = delay/48000)"
+      swaccess: rw
+      fields:
+      [
+        {
+          bits: 15:0
+          name: "val"
+          desc: ""
+        }
+      ]
+    }
+  ]
+}
